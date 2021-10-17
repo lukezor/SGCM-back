@@ -54,6 +54,16 @@ REST_FRAMEWORK = {
     ]
 }
 
+AUTH_USER_MODEL = 'authapi.User'
+
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create':'authapi.serializers.UserCreateSerializer',
+        'user':'authapi.serializers.UserCreateSerializer',
+        'current_user':'authapi.serializers.UserCreateSerializer'
+    }
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
