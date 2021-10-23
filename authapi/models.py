@@ -3,12 +3,12 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     TIPOS_USUARIO = (
-        (0, "Administrador"),
-        (1, "Secretário"),
-        (2, "Paciente"),
-        (3, "Medico")
+        ("ADMIN", "Administrador"),
+        ("SECRETARIO", "Secretário"),
+        ("PACIENTE", "Paciente"),
+        ("MEDICO", "Medico")
     )
-    user_type = models.IntegerField(choices=TIPOS_USUARIO)
+    user_type = models.CharField(choices=TIPOS_USUARIO, max_length=15)
     email = models.EmailField(verbose_name='email', max_length=255, unique=True)
 
     REQUIRED_FIELDS = ['email','user_type','first_name','last_name']
