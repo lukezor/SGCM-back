@@ -4,18 +4,23 @@ SGCM stands for Sistema Gerenciador de Clínicas Médicas (Medical clinic manage
 
 How to run:
 
-You will need to install in your venv 
-  -Python 3
-  -Django
-  -Django REST Framework
-  -corsheaders
-  -djoser
+ You will need to install in your venv 
+
+    -Python 3
+    -Django
+    -Django REST Framework
+    -corsheaders
+    -djoser
+  
   
 Then you can make the database migrations by using
- python manage.py makemigrations
- python manage.py migrate
+
+    python manage.py makemigrations
+    python manage.py migrate
+ 
  
 Finnaly, run your server using:
- python manage.py runserver
+
+    python manage.py runserver
  
 (Default port: 8000)
