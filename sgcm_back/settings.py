@@ -25,12 +25,10 @@ SECRET_KEY = 'django-insecure-a9!02v(-ii+-c52=)2263f_0j1t-2&@7#y8^k7f-q%hf7q)31@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,14 +36,33 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
+    'authapi',
+    'core',
+    'djoser'
 ]
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'rest_framework.permissions.IsAuthenticated',
     ]
+}
+
+AUTH_USER_MODEL = 'authapi.User'
+
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create':'authapi.serializers.UserCreateSerializer',
+        'user':'authapi.serializers.UserViewSerializer',
+        'current_user':'authapi.serializers.UserViewSerializer'
+    }
 }
 
 MIDDLEWARE = [
@@ -56,7 +73,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+ALLOWED_HOSTS = ["*"]
+
 
 ROOT_URLCONF = 'sgcm_back.urls'
 
