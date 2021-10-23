@@ -2,7 +2,7 @@
 BackEnd repository using Python and Django REST Framwork for the Final Paper on Computer Engineering by the student Gabriel Sana Ferreira da Silva @utfpr. 
 SGCM stands for Sistema Gerenciador de Clínicas Médicas (Medical clinic management system).
 
-How to run:
+## Build Setup
 
  You will need to install in your venv 
 
