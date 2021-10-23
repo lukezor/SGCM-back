@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'authapi',
+    'core',
     'djoser'
 ]
 
@@ -59,8 +60,8 @@ AUTH_USER_MODEL = 'authapi.User'
 DJOSER = {
     'SERIALIZERS': {
         'user_create':'authapi.serializers.UserCreateSerializer',
-        'user':'authapi.serializers.UserCreateSerializer',
-        'current_user':'authapi.serializers.UserCreateSerializer'
+        'user':'authapi.serializers.UserViewSerializer',
+        'current_user':'authapi.serializers.UserViewSerializer'
     }
 }
 
