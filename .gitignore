@@ -151,8 +151,6 @@ ENV/
 env.bak/
 venv.bak/
 pip-selfcheck.json
-src/apps/processamento_carga/erro/
-src/apps/processamento_carga/processados/
 
 # End of https://www.gitignore.io/api/virtualenv
 
