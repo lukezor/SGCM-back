@@ -7,7 +7,7 @@ class Informacao_Pessoal(models.Model):
         ("M", "Masculino"),
         ("F","Feminino")
     )
-    id_paciente = models.ForeignKey(User, on_delete=models.CASCADE)
+    id_paciente = models.OneToOneField(User, on_delete=models.CASCADE)
     nome_completo = models.CharField(max_length=100)
     data_nascimento = models.DateField()
     profissao = models.CharField(max_length=100)
@@ -30,7 +30,9 @@ class Agendamento(models.Model):
     )
     id_paciente = models.ForeignKey(User, related_name="id_paciente_atendimento", on_delete=models.CASCADE)
     id_medico = models.ForeignKey(User, related_name="id_medico_atendimento",on_delete=models.CASCADE)
-    data = models.DateTimeField(unique=True)
+    data = models.DateField()
+    hora = models.TimeField()
+    data_hora = models.CharField(max_length=20,unique=True)
     status = models.IntegerField(choices=AGENDAMENTO_STATUS)
 
     def __str__(self):
