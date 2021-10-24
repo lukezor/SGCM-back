@@ -10,6 +10,8 @@ class User(AbstractUser):
     )
     user_type = models.CharField(choices=TIPOS_USUARIO, max_length=15)
     email = models.EmailField(verbose_name='email', max_length=255, unique=True)
+    date_joined = models.DateField(auto_now=True)
+    info_cadastrada = models.BooleanField(null=True,blank=True)
 
     REQUIRED_FIELDS = ['email','user_type','first_name','last_name']
     USERNAME_FIELD = 'username'

@@ -4,7 +4,7 @@ from .models import Agendamento, Informacao_Pessoal, Prontuario
 class AgendamentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Agendamento
-        fields = '__all__'
+        fields = ('id','id_paciente','id_medico','status','data','hora')
 
 class InfoPessoalSerializer(serializers.ModelSerializer):
     class Meta:
