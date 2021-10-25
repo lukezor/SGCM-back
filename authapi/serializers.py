@@ -11,3 +11,8 @@ class UserViewSerializer(UserSerializer):
     class Meta(UserSerializer.Meta):
         model = User
         fields = ('id','username','email','user_type','first_name','last_name','date_joined','info_cadastrada')
+
+class UserInfoSerializer(UserSerializer):
+    class Meta(UserSerializer.Meta):
+        model = User
+        fields = ('id','info_cadastrada')
