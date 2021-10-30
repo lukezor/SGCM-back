@@ -36,7 +36,7 @@ class Agendamento(models.Model):
     status = models.IntegerField(choices=AGENDAMENTO_STATUS)
 
     def __str__(self):
-        return self.data + "-" + self.status
+        return self.data_hora + " - " + self.status
 
 class Prontuario(models.Model):
     id_paciente = models.ForeignKey(User, related_name="id_paciente_prontuario", on_delete=models.CASCADE)
