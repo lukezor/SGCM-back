@@ -10,7 +10,7 @@ class AgendamentoViewSet(viewsets.ModelViewSet):
     queryset = Agendamento.objects.all()
     serializer_class = AgendamentoSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_fields = ('id','id_medico','id_paciente','status','data','hora')
+    filterset_fields = ('id','id_medico','id_paciente','status','data','hora','data_hora')
 
     def create(self, request,*args, **kwargs):
         try:
@@ -28,8 +28,10 @@ class AgendamentoViewSet(viewsets.ModelViewSet):
                 )
                 print("consegui criar: ",agendamento)
                 agendamento.save()
-
-                return Response()
+                result = {
+                    "agendamento":"Criado com sucesso."
+                }
+                return Response(result, status=status.HTTP_201_CREATED)
 
         except Exception as exception:
             print("Erro: ",exception)
@@ -37,6 +39,12 @@ class AgendamentoViewSet(viewsets.ModelViewSet):
                 "agendamento": "Esse horário já está ocupado para esse dia."
             }
             return Response(result, status=status.HTTP_400_BAD_REQUEST)
+
+class AgendamentoChangeStatusViewSet(viewsets.ModelViewSet):
+    queryset = Agendamento.objects.all()
+    serializer_class = AgendamentoStatusSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_fields = ('id','id_paciente', 'id_medico')
 
 
 class InfoPessoalViewSet(viewsets.ModelViewSet):
