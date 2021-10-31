@@ -40,6 +40,12 @@ class AgendamentoViewSet(viewsets.ModelViewSet):
             }
             return Response(result, status=status.HTTP_400_BAD_REQUEST)
 
+class AgendamentoChangeStatusViewSet(viewsets.ModelViewSet):
+    queryset = Agendamento.objects.all()
+    serializer_class = AgendamentoStatusSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_fields = ('id','id_paciente', 'id_medico')
+
 
 class InfoPessoalViewSet(viewsets.ModelViewSet):
     queryset = Informacao_Pessoal.objects.all()

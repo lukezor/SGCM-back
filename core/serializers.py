@@ -16,3 +16,8 @@ class ProntuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Prontuario
         fields = '__all__'
+
+class AgendamentoStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Agendamento
+        fields = ('id','status')

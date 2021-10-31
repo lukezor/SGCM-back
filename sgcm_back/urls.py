@@ -9,6 +9,7 @@ router = routers.DefaultRouter()
 router.register(r'users',UserViewSet)
 router.register(r'userinfo',UserInfoViewSet)
 router.register(r'agendamentos',AgendamentoViewSet)
+router.register(r'changeAgendamentoStatus',AgendamentoChangeStatusViewSet)
 router.register(r'infospessoais',InfoPessoalViewSet)
 router.register(r'prontuarios',ProntuarioViewSet)
 
