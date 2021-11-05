@@ -17,7 +17,12 @@ class Informacao_Pessoal(models.Model):
     telefone = models.CharField(max_length=20)
     cor_raca = models.CharField(max_length=20)
     naturalidade = models.CharField(max_length=50)
+    religiao = models.CharField(max_length=50, null=True)
+    estado_civil = models.CharField(max_length=50)
+    reponsavel = models.CharField(max_length=50, null=True)
+    plano_saude = models.CharField(max_length=50, null=True)
     data_cadastro = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return self.nome_completo
@@ -47,14 +52,14 @@ class Prontuario(models.Model):
     id_medico = models.ForeignKey(User, related_name="id_medico_prontuario",on_delete=models.CASCADE)
     ref = models.CharField(max_length=200,default=timezone.localtime(timezone.now()).date())
     qd = models.TextField()
-    hpma = models.TextField()
-    isda = models.TextField()
+    hda = models.TextField()
+    efg = models.TextField()
     habitos = models.TextField()
     antecedentes_pessoais = models.TextField()
     antecedentes_familiares = models.TextField()
     hipotese_cid = models.TextField()
     conduta = models.TextField()
     exames = models.TextField()
-    prescricoes = models.TextField()
+    receitas = models.TextField()
     evolucoes = models.TextField()
     info_adicional = models.TextField()
