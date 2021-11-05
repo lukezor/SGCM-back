@@ -18,6 +18,7 @@ router.register(r'prontuarios',ProntuarioViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('api/', include(router.urls)),
+    path('api/relatorios/', RelatoriosViewSet.as_view()),
     path('admin/', admin.site.urls),
     path('auth/', include('authapi.urls')),
 ]
