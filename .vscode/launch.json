@@ -36,3 +36,7 @@
         },
     ]
 }
+
+//deploy: git push heroku master --force   
+//running commands on heroku: heroku run python manage.py createsuperuser 
+//running commands on heroku: heroku run python manage.py migrate 
