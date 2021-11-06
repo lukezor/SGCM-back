@@ -1,1 +1,1 @@
-web: gunicorn sgcm-back.wsgi --log-file -
+web: gunicorn sgcm_back.wsgi --log-file -
