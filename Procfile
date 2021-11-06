@@ -1,0 +1,1 @@
+web: gunicorn SGCM-BACK.wsgi --log-file -
