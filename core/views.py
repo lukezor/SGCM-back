@@ -49,7 +49,6 @@ class AgendamentoChangeStatusViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('id','id_paciente', 'id_medico')
 
-
 class InfoPessoalViewSet(viewsets.ModelViewSet):
     queryset = Informacao_Pessoal.objects.all()
     serializer_class = InfoPessoalSerializer
@@ -78,16 +77,64 @@ class RelatoriosViewSet(APIView):
             age_array.sort()
             dob_array.sort()
             result = {
-                "total_registered:":infos_pessoais_array.__len__(),
-                "oldest_name:":Informacao_Pessoal.objects.filter(data_nascimento=dob_array[0])[0].nome_completo,
-                "oldest_age:":age_array[age_array.__len__()-1],
-                "youngest_name:":Informacao_Pessoal.objects.filter(data_nascimento=dob_array[dob_array.__len__()-1])[0].nome_completo,
-                "youngest_age:":age_array[0],
-                "average_age":sum(age_array) / len(age_array)
+                "total_registered":str(infos_pessoais_array.__len__()),
+                "oldest_name":Informacao_Pessoal.objects.filter(data_nascimento=dob_array[0])[0].nome_completo,
+                "oldest_age":age_array[age_array.__len__()-1],
+                "youngest_name":Informacao_Pessoal.objects.filter(data_nascimento=dob_array[dob_array.__len__()-1])[0].nome_completo,
+                "youngest_age":age_array[0],
+                "average_age": str(sum(age_array) / len(age_array)) if len(age_array) != 0 else "0"
             }
             return Response(result,status=status.HTTP_200_OK)
         elif id == '2':
-            result={}
+            #Horários, dias e meses com maior número de consultas
+            agendamentos_array = Agendamento.objects.all()
+            days_array = [
+                {"day":'segunda',"count":0},
+                {"day":'terca',"count":0},
+                {"day":'quarta',"count":0},
+                {"day":'quinta',"count":0},
+                {"day":'sexta',"count":0},
+                {"day":'sabado',"count":0},
+                {"day":'domingo',"count":0}
+            ]
+            months_array = [
+                {"month":'janeiro',"count":0},
+                {"month":'fevereiro',"count":0},
+                {"month":'março',"count":0},
+                {"month":'abril',"count":0},
+                {"month":'maio',"count":0},
+                {"month":'junho',"count":0},
+                {"month":'julho',"count":0},
+                {"month":'agosto',"count":0},
+                {"month":'setembro',"count":0},
+                {"month":'outubro',"count":0},
+                {"month":'novembro',"count":0},
+                {"month":'dezembro',"count":0}
+            ]
+            appointment_time_array = [
+                {"horario":'07:00:00',"count":0},
+                {"horario":'08:00:00',"count":0},
+                {"horario":'09:00:00',"count":0},
+                {"horario":'10:00:00',"count":0},
+                {"horario":'11:00:00',"count":0},
+                {"horario":'13:00:00',"count":0},
+                {"horario":'14:00:00',"count":0},
+                {"horario":'15:00:00',"count":0},
+                {"horario":'16:00:00',"count":0},
+                {"horario":'17:00:00',"count":0},
+            ]
+            for agendamento in agendamentos_array:
+                datahora = datetime.datetime.strptime(agendamento.data_hora, '%Y-%m-%dT%H:%M')
+                days_array[datahora.weekday()]['count']=days_array[datahora.weekday()]['count']+1
+                months_array[datahora.month-1]['count']=months_array[datahora.month-1]['count']+1
+                line = next(item for item in appointment_time_array if item["horario"] == str(datahora.time()))
+                line['count'] = line['count']+1
+
+            result={
+                'best_day':max(days_array, key=lambda x:x['count']),
+                'best_month':max(months_array, key=lambda x:x['count']),
+                'best_time':max(appointment_time_array, key=lambda x:x['count'])
+            }
             return Response(result,status=status.HTTP_200_OK)
         elif id == '3':
             infos_pessoais_array = Informacao_Pessoal.objects.all()
@@ -97,17 +144,19 @@ class RelatoriosViewSet(APIView):
                     "name":person.nome_completo,
                     "qnt":Agendamento.objects.filter(id_paciente=person.id_paciente_id).__len__()
                 })
-            numero_agendamentos = 0
-            nome_pessoa = "Nobody"
-            for person in agendamentos_array:
-                print(person)
-                if person['qnt'] > numero_agendamentos:
-                    numero_agendamentos = person['qnt']
-                    nome_pessoa = person['nome_completo']
-            result={
-                "name":nome_pessoa,
-                "qnt":numero_agendamentos
-            }
+            sorted_agendamentos = sorted(agendamentos_array, key=lambda x: x['qnt'], reverse=True)
+            result = sorted_agendamentos
+            return Response(result,status=status.HTTP_200_OK)
+        elif id == '5':
+            medicos_array = User.objects.filter(user_type='MEDICO')
+            agendamentos_array = []
+            for medico in medicos_array:
+                agendamentos_array.append({
+                    "name":medico.first_name + ' ' + medico.last_name,
+                    "qnt":Agendamento.objects.filter(id_medico=medico.id).__len__()
+                })
+            sorted_agendamentos = sorted(agendamentos_array, key=lambda x: x['qnt'], reverse=True)
+            result = sorted_agendamentos
             return Response(result,status=status.HTTP_200_OK)
         elif id == '4':
             agendamentos_array = Agendamento.objects.all()
@@ -125,11 +174,11 @@ class RelatoriosViewSet(APIView):
                 elif(agendamento.status == 3):
                     count_ended = count_ended + 1
             result={
-                "total":agendamentos_array.__len__(),
-                "ended": count_ended,
-                "canceled": count_canceled,
-                "awaiting": count_awaiting,
-                "confirmed": count_confirmed
+                "total":str(agendamentos_array.__len__()),
+                "ended": str(count_ended),
+                "canceled": str(count_canceled),
+                "awaiting": str(count_awaiting),
+                "confirmed": str(count_confirmed)
             }
             return Response(result,status=status.HTTP_200_OK)
         else:
