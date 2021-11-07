@@ -4,14 +4,9 @@ SGCM stands for Sistema Gerenciador de Clínicas Médicas (Medical clinic manage
 
 ## Build Setup
 
- You will need to install in your venv 
-
-    -Python 3
-    -Django
-    -Django REST Framework
-    -corsheaders
-    -djoser
-  
+ You will need to install
+ 
+    pip install requirements-dev.txt
   
 Then you can make the database migrations by using
 
